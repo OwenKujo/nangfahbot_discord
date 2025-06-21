@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "deploy": "node deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -12,7 +14,6 @@
   "description": "",
   "dependencies": {
     "discord.js": "^14.20.0",
-    "djs-commander": "^0.0.50",
     "dotenv": "^16.5.0"
   }
 }
