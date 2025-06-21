@@ -1,9 +1,8 @@
 module.exports = {
-    data:{
-        name: 'ping',
-        description: 'Reply  with Pong',
+    name: 'ping',
+    description: 'Replies with Pong!',
+    
+    callback: (client, interaction) => {
+        interaction.reply('Pong!');
     },
-    run : ({ interaction }) => {
-        interaction.reply("Pong!!").catch(console.error);
-    }
-}
+};

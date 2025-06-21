@@ -12,12 +12,15 @@ const client = new Client({
     ],
 });
 
-new CommandHandler({
-    client,
-    eventsPath: path.join(__dirname,'events'),
-    commandsPath: path.join(__dirname, 'commands')
-
-})
+try {
+    new CommandHandler({
+        client,
+        eventsPath: path.join(__dirname, 'events'),
+        commandsPath: path.join(__dirname, 'commands')
+    });
+} catch (error) {
+    console.error('Error initializing CommandHandler:', error);
+}
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
