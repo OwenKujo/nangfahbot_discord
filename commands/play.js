@@ -16,6 +16,7 @@ module.exports = {
         if (!voiceChannel) {
             return interaction.reply({ content: 'You need to be in a voice channel to play music!', ephemeral: true });
         }
+        await interaction.deferReply();
         let searchQuery = query;
         if (query.includes('open.spotify.com/track')) {
             searchQuery = await getTrackInfo(query);
@@ -35,7 +36,7 @@ module.exports = {
                 textChannel: interaction.channel,
                 member: interaction.member
             });
-            await interaction.reply({ content: `Now playing: ${searchQuery}` });
+            await interaction.editReply({ content: `Now playing: ${searchQuery}` });
         } catch (error) {
             console.error(error);
             await interaction.reply({ content: 'There was an error trying to play that track.', ephemeral: true });
