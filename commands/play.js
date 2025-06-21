@@ -26,15 +26,25 @@ module.exports = {
                 return interaction.editReply({ content: 'Could not fetch track info from Spotify.' });
             }
         }
+        console.log('Spotify/YouTube search query:', searchQuery);
 
         // If it's a YouTube link, pass it directly; otherwise, search YouTube
         let youtubeUrl = searchQuery;
         if (!/^https?:\/\/(www\.)?youtube\.com\/watch\?v=/.test(searchQuery) && !/^https?:\/\/youtu\.be\//.test(searchQuery)) {
             const result = await ytSearch(searchQuery);
             youtubeUrl = result.videos.length > 0 ? result.videos[0].url : null;
+            console.log('YouTube URL found:', youtubeUrl);
             if (!youtubeUrl) {
                 return interaction.editReply({ content: 'Could not find the track on YouTube.' });
             }
+        } else {
+            console.log('Direct YouTube URL:', youtubeUrl);
+        }
+
+        // Final check: Only pass valid YouTube URLs to DisTube
+        if (!/^https?:\/\/(www\.)?youtube\.com\/watch\?v=/.test(youtubeUrl) && !/^https?:\/\/youtu\.be\//.test(youtubeUrl)) {
+            console.error('Not a valid YouTube URL:', youtubeUrl);
+            return interaction.editReply({ content: 'Internal error: Not a valid YouTube URL.' });
         }
 
         try {

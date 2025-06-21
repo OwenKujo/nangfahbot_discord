@@ -16,6 +16,7 @@ async function getTrackInfo(spotifyUrl) {
   if (!match) return null;
   const trackId = match[1];
   const data = await spotifyApi.getTrack(trackId);
+  console.log('Spotify search query:', `${data.body.name} ${data.body.artists[0].name}`);
   return `${data.body.name} ${data.body.artists[0].name}`;
 }
 
