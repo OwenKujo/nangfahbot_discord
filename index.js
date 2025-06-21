@@ -21,6 +21,7 @@ new CommandHandler({
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
+    console.log(`Bot is in ${client.guilds.cache.size} servers`);
 });
 
 client.login(process.env.DISCORD_CLIENT);
