@@ -2,6 +2,8 @@ require('dotenv').config();
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, Events } = require('discord.js');
+const { DisTube } = require('distube');
+const { SpotifyPlugin } = require('@distube/spotify');
 
 const client = new Client({
     intents: [
@@ -9,6 +11,7 @@ const client = new Client({
         GatewayIntentBits.GuildMembers, // Required for the welcome event
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildVoiceStates, // Required for voice features
     ],
 });
 
@@ -43,6 +46,19 @@ for (const file of eventFiles) {
     }
     console.log(`[SUCCESS] Loaded event: ${event.name}`);
 }
+
+// Initialize DisTube and attach to client
+client.distube = new DisTube(client, {
+    plugins: [new SpotifyPlugin()],
+});
+
+// Optional: Log DisTube events for debugging
+client.distube.on('error', (channel, error) => {
+    console.error('DisTube Error:', error);
+});
+client.distube.on('finish', queue => {
+    console.log('Finished playing in', queue.voice.channel.name);
+});
 
 // --- Slash Command Execution ---
 client.on(Events.InteractionCreate, async interaction => {

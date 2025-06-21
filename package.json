@@ -13,7 +13,11 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "@discordjs/voice": "^0.18.0",
+    "@distube/spotify": "^2.0.2",
     "discord.js": "^14.20.0",
-    "dotenv": "^16.5.0"
+    "distube": "^5.0.7",
+    "dotenv": "^16.5.0",
+    "ytdl-core": "^4.11.5"
   }
 }
