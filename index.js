@@ -100,5 +100,12 @@ try {
     console.error('FFmpeg not found or not executable:', e);
 }
 
+process.on('uncaughtException', err => {
+  console.error('Uncaught Exception:', err);
+});
+process.on('unhandledRejection', err => {
+  console.error('Unhandled Rejection:', err);
+});
+
 client.login(process.env.DISCORD_CLIENT);
 
