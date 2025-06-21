@@ -16,20 +16,27 @@ module.exports = {
         if (!voiceChannel) {
             return interaction.reply({ content: 'You need to be in a voice channel to play music!', ephemeral: true });
         }
+
         await interaction.deferReply();
+
         let searchQuery = query;
         if (query.includes('open.spotify.com/track')) {
             searchQuery = await getTrackInfo(query);
             if (!searchQuery) {
-                return interaction.reply({ content: 'Could not fetch track info from Spotify.', ephemeral: true });
+                return interaction.editReply({ content: 'Could not fetch track info from Spotify.' });
             }
         }
-        // Now search YouTube for the track
-        const result = await ytSearch(searchQuery);
-        const youtubeUrl = result.videos.length > 0 ? result.videos[0].url : null;
-        if (!youtubeUrl) {
-            return interaction.reply({ content: 'Could not find the track on YouTube.', ephemeral: true });
+
+        // If it's a YouTube link, pass it directly; otherwise, search YouTube
+        let youtubeUrl = searchQuery;
+        if (!/^https?:\/\/(www\.)?youtube\.com\/watch\?v=/.test(searchQuery) && !/^https?:\/\/youtu\.be\//.test(searchQuery)) {
+            const result = await ytSearch(searchQuery);
+            youtubeUrl = result.videos.length > 0 ? result.videos[0].url : null;
+            if (!youtubeUrl) {
+                return interaction.editReply({ content: 'Could not find the track on YouTube.' });
+            }
         }
+
         try {
             const distube = interaction.client.distube;
             await distube.play(voiceChannel, youtubeUrl, {
@@ -39,7 +46,7 @@ module.exports = {
             await interaction.editReply({ content: `Now playing: ${searchQuery}` });
         } catch (error) {
             console.error(error);
-            await interaction.reply({ content: 'There was an error trying to play that track.', ephemeral: true });
+            await interaction.editReply({ content: 'There was an error trying to play that track.' });
         }
     },
 }; 
