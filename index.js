@@ -4,6 +4,7 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, Events } = require('discord.js');
 const { DisTube } = require('distube');
 const { SpotifyPlugin } = require('@distube/spotify');
+const { execSync } = require('child_process');
 
 const client = new Client({
     intents: [
@@ -56,6 +57,7 @@ client.distube = new DisTube(client, {
 // Optional: Log DisTube events for debugging
 client.distube.on('error', (channel, error) => {
     console.error('DisTube Error:', error);
+    if (channel) channel.send('DisTube Error: ' + error.message);
 });
 client.distube.on('finish', queue => {
     console.log('Finished playing in', queue.voice.channel.name);
@@ -90,6 +92,13 @@ client.on('ready', () => {
 });
 
 process.env.FFMPEG_PATH = './ffmpeg';
+
+try {
+    const ffmpegVersion = execSync('./ffmpeg -version').toString();
+    console.log('FFmpeg version:', ffmpegVersion);
+} catch (e) {
+    console.error('FFmpeg not found or not executable:', e);
+}
 
 client.login(process.env.DISCORD_CLIENT);
 
