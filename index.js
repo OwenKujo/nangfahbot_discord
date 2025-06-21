@@ -50,6 +50,7 @@ for (const file of eventFiles) {
 // Initialize DisTube and attach to client
 client.distube = new DisTube(client, {
     plugins: [new SpotifyPlugin()],
+    // ffmpeg: process.env.FFMPEG_PATH, // Only if DisTube supports this option
 });
 
 // Optional: Log DisTube events for debugging
@@ -87,6 +88,8 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}`);
     console.log(`Bot is in ${client.guilds.cache.size} servers`);
 });
+
+process.env.FFMPEG_PATH = './ffmpeg';
 
 client.login(process.env.DISCORD_CLIENT);
 

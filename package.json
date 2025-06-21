@@ -6,7 +6,7 @@
     "start": "node index.js",
     "deploy": "node deploy-commands.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "curl -L https://github.com/yt-dlp/FFmpeg-Builds/releases/latest/download/ffmpeg-master-latest-win64-gpl.zip -o ffmpeg.zip && tar -xf ffmpeg.zip && mkdir -p ./ffmpeg && mv ffmpeg-*/* ./ffmpeg/ && export PATH=$PATH:$(pwd)/ffmpeg/bin"
+    "postinstall": "curl -L https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz | tar xJ && mv ffmpeg-*-amd64-static/ffmpeg ./ffmpeg && chmod +x ./ffmpeg"
   },
   "keywords": [],
   "author": "",
