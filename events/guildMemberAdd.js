@@ -33,7 +33,11 @@ module.exports = {
             .setFooter({ text: 'We hope you enjoy your stay!' })
             .setTimestamp();
 
-        welcomeChannel.send({ embeds: [welcomeEmbed] })
+        // Send the welcome message with a ping in the content field for a reliable notification
+        welcomeChannel.send({
+            content: `Welcome <@${member.id}>!`,
+            embeds: [welcomeEmbed]
+        })
             .then(() => {
                 console.log(`[SUCCESS] Welcome message sent for ${member.user.tag} in #${welcomeChannel.name}`);
             })
