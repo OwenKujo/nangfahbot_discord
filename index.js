@@ -78,9 +78,7 @@ client.on(Events.InteractionCreate, async interaction => {
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
-        if (interaction.replied || interaction.deferred) {
-            await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
-        } else {
+        if (!interaction.replied && !interaction.deferred) {
             await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
         }
     }
@@ -94,7 +92,7 @@ client.on('ready', () => {
 process.env.FFMPEG_PATH = './ffmpeg';
 
 try {
-    const ffmpegVersion = execSync('./ffmpeg -version').toString();
+    const ffmpegVersion = execSync('ffmpeg -version').toString();
     console.log('FFmpeg version:', ffmpegVersion);
 } catch (e) {
     console.error('FFmpeg not found or not executable:', e);
@@ -108,4 +106,3 @@ process.on('unhandledRejection', err => {
 });
 
 client.login(process.env.DISCORD_CLIENT);
-
